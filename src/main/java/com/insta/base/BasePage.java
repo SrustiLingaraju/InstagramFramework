@@ -1,29 +1,39 @@
-package com.insta.com.base;
 
+package com.insta.base;
 
+import com.insta.utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class BasePage {
     protected WebDriver driver;
-    protected WebDriverWait wait;
+    protected WaitUtils wait;
+    protected static final Logger logger = LogManager.getLogger(BasePage.class);
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WaitUtils(driver);
         PageFactory.initElements(driver, this);
     }
 
-    protected void waitForElementToBeVisible(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+    protected void sendKeys(WebElement element, String text) {
+        wait.waitForElementToBeVisible(element);
+        element.clear();
+        element.sendKeys(text);
+        logger.info("Typed text: " + text);
     }
 
-    protected void waitForElementToBeClickable(WebElement element) {
-        wait.until(ExpectedConditions.elementToBeClickable(element));
+    protected void click(WebElement element) {
+        wait.waitForElementToBeClickable(element);
+        element.click();
+        logger.info("Clicked element: " + element);
+    }
+
+    protected String getText(WebElement element) {
+        wait.waitForElementToBeVisible(element);
+        return element.getText();
     }
 }
