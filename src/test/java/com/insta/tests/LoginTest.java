@@ -33,5 +33,5 @@ public class LoginTest extends BaseTest {
         Assert.assertTrue(messagingPage.isMessageThreadOpen(),
                 "Message thread should be open");
     }
-    //added srusti
+    //added srusti-fork
 }
